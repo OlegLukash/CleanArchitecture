@@ -1,0 +1,103 @@
+<!-- <mat-sidenav-container> -->
+  <mat-card class='light' style="height: 100%;">
+    <mat-card-header>
+      <mat-card-title class="view-card-title">
+        <h1>Books</h1>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <mat-form-field>
+          <mat-placeholder>
+            <mat-icon>subject</mat-icon>
+            <b> Search</b>
+          </mat-placeholder>
+          <input matInput [formControl]="searchInput" (keyup.enter)="applySearch()">
+        </mat-form-field>
+        <span class="title-spacer"></span>
+        <button mat-mini-fab style="margin-right:10px; background-color:#e07c9e" [routerLink]="['/admin/editBook', 0]">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-mini-fab style="margin-right:10px; background-color:#a28b6e" (click)="sidenav.toggle()">
+          <mat-icon>search</mat-icon>
+        </button>
+        <button mat-mini-fab style="margin-right:10px; background-color:darkgray" (click)="loadBooksFromApi()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <mat-table #table [dataSource]="pagedBooks?.items" matSort matSortActive="title" matSortDirection="asc">
+     
+	    <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+        <mat-cell *matCellDef="let book"> {{book.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="publisher">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Publisher </mat-header-cell>
+        <mat-cell *matCellDef="let book"> {{book.publisher}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="publishedOn">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Published On </mat-header-cell>
+        <mat-cell *matCellDef="let book"> {{book.publishedOn | date}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+        <mat-cell *matCellDef="let book"> {{book.price | currency}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef style="justify-content:right;">
+          <button mat-button style="color:white; background-color:darkgrey" (click)="resetGrid()">Reset</button>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let book" style="justify-content:right;">
+          <button mat-mini-fab style="background-color:teal; min-height: 30px;   margin: 5px;" [routerLink]="['/admin/editBook', book.id]">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab style="background-color:lightblue; min-height: 30px;  margin: 5px;" (click)="openDialogForDeleting(book.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+     
+      
+	  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    
+    </mat-table>
+
+    <mat-paginator [length]="pagedBooks?.total" [pageSizeOptions]="[5, 10, 25, 50]" pageSize="5"></mat-paginator>
+
+  </mat-card>
+  
+  <!-- </mat-sidenav-container> -->
+
+  <mat-sidenav class="search-panel" dark #sidenav mode="push" opened="false">
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <div mat-card-avatar class="avatar"></div>
+        <mat-card-subtitle>
+          <button mat-raised-button style="color:lightgrey; background-color:darkgreen" (click)="filterBooksFromForm();sidenav.toggle()">
+            <mat-icon>search</mat-icon>Search </button>
+          <button mat-raised-button style="color:lightgrey; background-color:darkred" (click)="resetGrid(); sidenav.toggle()">
+            <mat-icon>refresh</mat-icon>Reset</button>
+        </mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+    <mat-nav-list style="margin-left:20px;">
+      <form [formGroup]="filterForm" (ngSubmit)="sidenav.toggle()">
+        <mat-form-field>
+          <input matInput type="text" placeholder="Title" style="width:200px;" formControlName="title" (keyup.enter)="filterBooksFromForm();sidenav.toggle()"  />
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Publisher" style="width:200px;" formControlName="publisher" (keyup.enter)="filterBooksFromForm();sidenav.toggle()"  />
+        </mat-form-field>
+      </form>
+    </mat-nav-list>
+  </mat-sidenav>
+
+
+  
