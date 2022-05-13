@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OnlineBookShop.Application.Common.Interfaces;
 using OnlineBookShop.Application.Repositories;
 using OnlineBookShop.Domain.Auth;
+using OnlineBookShop.Infrastructure.Identity;
 using OnlineBookShop.Infrastructure.Persistance.Contexts;
 using OnlineBookShop.Infrastructure.Persistance.Repositories;
 
@@ -24,6 +26,8 @@ namespace OnlineBookShop.Infrastructure.Persistance.Extensions
             .AddEntityFrameworkStores<OnlineBookShopDbContext>();
 
             services.AddScoped<IRepository, EFCoreRepository>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<ITokenService, TokenService>();
 
             return services;
         }

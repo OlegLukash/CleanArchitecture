@@ -1,56 +1,32 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using OnlineBookShop.API.Requests;
-using OnlineBookShop.Domain.Auth;
-using OnlineBookShop.Infrastructure.Options;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+using OnlineBookShop.Application.App.Auth.Commands;
 
 namespace OnlineBookShop.API.Controllers
 {
     [Route("api/account")]
     public class AccountController : AppBaseController
     {
-        private readonly AuthOptions _authenticationOptions;
-        private readonly SignInManager<User> _signInManager;
+        private readonly IMediator _mediator;
 
-        public AccountController(IOptions<AuthOptions> authenticationOptions, SignInManager<User> signInManager)
-        {
-            _authenticationOptions = authenticationOptions.Value;
-            _signInManager = signInManager;
+        public AccountController(IMediator mediator)
+        {     
+            _mediator = mediator;
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
+        public async Task<IActionResult> Login(SignInCommand passwordSignInCommand)
         {
-            var checkingPasswordResult = await _signInManager.PasswordSignInAsync(userForLoginDto.Username, userForLoginDto.Password, false, false);
+            var response = await _mediator.Send(passwordSignInCommand);
 
-            if (checkingPasswordResult.Succeeded)
+            if (response.Succeeded)
             {
-                var signinCredentials = new SigningCredentials(_authenticationOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256);
-                var jwtSecurityToken = new JwtSecurityToken(
-                     issuer: _authenticationOptions.Issuer,
-                     audience: _authenticationOptions.Audience,
-                     claims: new List<Claim>(),
-                     expires: DateTime.Now.AddDays(30),
-                     signingCredentials: signinCredentials
-                );
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-
-                var encodedToken = tokenHandler.WriteToken(jwtSecurityToken);
-
-                return Ok(new { AccessToken = encodedToken });
+                return Ok(new { response.AccessToken });
             }
 
             return Unauthorized();
         }
-
-
     }
 }
