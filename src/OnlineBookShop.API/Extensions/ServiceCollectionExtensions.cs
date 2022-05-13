@@ -12,10 +12,9 @@ namespace OnlineBookShop.API.Extensions
     {
         public static void AddServices(this WebApplicationBuilder builder)
         {
+            builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddAuthentication(builder.Configuration);
             builder.Services.AddControllers();
-
-            builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
             builder.Services.AddAutoMapper(typeof(ApplicationAssemblyMarker));
             builder.Services.AddSwagger();

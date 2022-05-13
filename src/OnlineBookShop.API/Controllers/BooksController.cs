@@ -38,7 +38,7 @@ namespace OnlineBookShop.API.Controllers
             return bookDto;
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task UpdateBook(UpdateBookCommand updateBookCommand)
         {
             await _mediator.Send(updateBookCommand);
