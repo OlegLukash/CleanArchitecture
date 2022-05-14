@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using OnlineBookShop.Application.App.Books.Dtos;
+using OnlineBookShop.Application.Common.Interfaces.Repositories;
 using OnlineBookShop.Application.Common.Models;
-using OnlineBookShop.Application.Repositories;
 using OnlineBookShop.Domain;
 
 namespace OnlineBookShop.Application.App.Books.Queries

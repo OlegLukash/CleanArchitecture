@@ -1,4 +1,5 @@
-﻿using OnlineBookShop.Application.Common.Exceptions;
+﻿using OnlineBookShop.API.Middlewares.Models;
+using OnlineBookShop.Application.Common.Exceptions;
 using System.Net;
 
 namespace OnlineBookShop.API.Middlewares

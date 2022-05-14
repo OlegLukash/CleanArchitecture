@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using OnlineBookShop.Application.Repositories;
+using OnlineBookShop.Application.Common.Interfaces.Repositories;
 using OnlineBookShop.Domain;
 
 namespace OnlineBookShop.Application.App.Books.Commands

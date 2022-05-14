@@ -2,7 +2,7 @@
 using OnlineBookShop.Domain;
 using System.Linq.Expressions;
 
-namespace OnlineBookShop.Application.Repositories
+namespace OnlineBookShop.Application.Common.Interfaces.Repositories
 {
     public interface IRepository
     {

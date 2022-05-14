@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace OnlineBookShop.API.Middlewares
+namespace OnlineBookShop.API.Middlewares.Models
 {
     public class ErrorDetails
     {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using OnlineBookShop.Application.Common.Interfaces.Repositories;
 using OnlineBookShop.Application.Common.Models;
 using OnlineBookShop.Application.Extensions;
-using OnlineBookShop.Application.Repositories;
 using OnlineBookShop.Domain;
 using OnlineBookShop.Infrastructure.Persistance.Contexts;
 using System.ComponentModel.DataAnnotations;

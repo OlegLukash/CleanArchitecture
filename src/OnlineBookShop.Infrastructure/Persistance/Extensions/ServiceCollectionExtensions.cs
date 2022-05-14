@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnlineBookShop.Application.Common.Interfaces;
-using OnlineBookShop.Application.Repositories;
+using OnlineBookShop.Application.Common.Interfaces.Repositories;
 using OnlineBookShop.Domain.Auth;
 using OnlineBookShop.Infrastructure.Identity;
 using OnlineBookShop.Infrastructure.Persistance.Contexts;
