@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using OnlineBookShop.Application.Common.Exceptions;
 
 namespace OnlineBookShop.Application.Common.Behaviours
 {
@@ -30,7 +31,7 @@ namespace OnlineBookShop.Application.Common.Behaviours
                 if (failures.Any())
                 {
                     var firstFailure = failures.First();
-                    throw new ValidationException(firstFailure.ErrorMessage);
+                    throw new RequestValidationException(firstFailure.ErrorMessage);
                 }
             }
             return await next();

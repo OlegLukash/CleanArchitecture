@@ -25,6 +25,7 @@ namespace OnlineBookShop.Infrastructure.Persistance.Extensions
             })
             .AddEntityFrameworkStores<OnlineBookShopDbContext>();
 
+            services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetService<OnlineBookShopDbContext>());
             services.AddScoped<IRepository, EFCoreRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();

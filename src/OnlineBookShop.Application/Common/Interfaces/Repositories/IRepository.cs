@@ -12,13 +12,13 @@ namespace OnlineBookShop.Application.Common.Interfaces.Repositories
 
         Task<List<TEntity>> GetAll<TEntity>() where TEntity : BaseEntity;
 
-        Task SaveChangesAsync();
-
         void Add<TEntity>(TEntity entity) where TEntity : BaseEntity;
 
         Task<TEntity> Delete<TEntity>(int id) where TEntity : BaseEntity;
 
         Task<PaginatedResult<TDto>> GetPagedData<TEntity, TDto>(PagedRequest pagedRequest) where TEntity : BaseEntity
                                                                                              where TDto : class;
+        Task<TEntity> FindByAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : BaseEntity;
+       
     }
 }

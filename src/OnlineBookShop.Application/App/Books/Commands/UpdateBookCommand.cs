@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
+using OnlineBookShop.Application.Common.Exceptions;
+using OnlineBookShop.Application.Common.Interfaces;
 using OnlineBookShop.Application.Common.Interfaces.Repositories;
 using OnlineBookShop.Domain;
 
@@ -23,19 +25,23 @@ namespace OnlineBookShop.Application.App.Books.Commands
     public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
     {
         private readonly IMapper _mapper;
-        private readonly IRepository _repository;
+        private readonly IBookRepository _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateBookCommandHandler(IMapper mapper, IRepository repository)
+        public UpdateBookCommandHandler(IMapper mapper, IBookRepository bookRepository, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _repository = repository;
+            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
-            var book = await _repository.GetById<Book>(request.Id);
+            var book = await _bookRepository.GetById<Book>(request.Id);
+            if (book == null) throw new EntityNotExistException("Book", request.Id);
+
             _mapper.Map(request, book);
-            await _repository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             return Unit.Value;
         }

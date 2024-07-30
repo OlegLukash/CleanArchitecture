@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using OnlineBookShop.Application.Common.Interfaces;
 using OnlineBookShop.Domain;
 using OnlineBookShop.Domain.Auth;
 using OnlineBookShop.Infrastructure.Persistance.Configurations;
@@ -7,7 +8,7 @@ using OnlineBookShop.Infrastructure.Persistance.Constants;
 
 namespace OnlineBookShop.Infrastructure.Persistance.Contexts
 {
-    public class OnlineBookShopDbContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
+    public class OnlineBookShopDbContext : IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>, IUnitOfWork
     {
         public OnlineBookShopDbContext(DbContextOptions<OnlineBookShopDbContext> options) : base(options)
         {
@@ -32,6 +33,11 @@ namespace OnlineBookShop.Infrastructure.Persistance.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
 
             ApplyIdentityMapConfiguration(modelBuilder);
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await base.SaveChangesAsync();
         }
 
         private void ApplyIdentityMapConfiguration(ModelBuilder modelBuilder)

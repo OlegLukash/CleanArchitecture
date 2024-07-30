@@ -27,7 +27,9 @@ namespace OnlineBookShop.API.Middlewares
 
                 switch (ex)
                 {
-                    case ValidationException _:
+                    case RequestValidationException _:
+                    case BusinessValidationException _:
+                    case EntityNotExistException _:
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
                     default:

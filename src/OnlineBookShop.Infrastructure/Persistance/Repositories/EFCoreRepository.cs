@@ -37,11 +37,6 @@ namespace OnlineBookShop.Infrastructure.Persistance.Repositories
             return await query.FirstOrDefaultAsync(entity => entity.Id == id);
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await _onlineBookShopDbContext.SaveChangesAsync();
-        }
-
         public void Add<TEntity>(TEntity entity) where TEntity : BaseEntity
         {
             _onlineBookShopDbContext
@@ -76,6 +71,12 @@ namespace OnlineBookShop.Infrastructure.Persistance.Repositories
                 entities = entities.Include(includeProperty);
             }
             return entities;
+        }
+
+        public async Task<TEntity> FindByAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : BaseEntity
+        {
+            var result = await _onlineBookShopDbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            return result;
         }
     }
 }

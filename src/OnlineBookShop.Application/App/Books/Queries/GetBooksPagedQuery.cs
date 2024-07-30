@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using OnlineBookShop.Application.App.Books.Dtos;
 using OnlineBookShop.Application.Common.Interfaces.Repositories;
 using OnlineBookShop.Application.Common.Models;
@@ -13,16 +14,16 @@ namespace OnlineBookShop.Application.App.Books.Queries
 
     public class GetBooksPagedQueryHandler : IRequestHandler<GetBooksPagedQuery, PaginatedResult<BookListDto>>
     {
-        private readonly IRepository _repository;
+        private readonly IBookRepository _bookRepository;
 
-        public GetBooksPagedQueryHandler(IRepository repository)
+        public GetBooksPagedQueryHandler(IBookRepository bookRepository)
         {
-            _repository = repository;
+            _bookRepository = bookRepository;
         }
 
         public async Task<PaginatedResult<BookListDto>> Handle(GetBooksPagedQuery request, CancellationToken cancellationToken)
         {
-            var pagedBooksDto = await _repository.GetPagedData<Book, BookListDto>(request.PagedRequest);
+            var pagedBooksDto = await _bookRepository.GetPagedData<Book, BookListDto>(request.PagedRequest);
             return pagedBooksDto;
         }
     }
