@@ -11,8 +11,7 @@ namespace OnlineBookShop.Application.Profiles
         {
             CreateMap<Book, BookListDto>()
                 .ForMember(x => x.Publisher, y => y.MapFrom(z => z.Publisher.Name));
-            CreateMap<Book, BookDto>()
-                .ForMember(x => x.PublisherId, y => y.MapFrom(z => z.Publisher.Id));
+            CreateMap<Book, BookDto>();
 
             CreateMap<CreateBookCommand, Book>();
 

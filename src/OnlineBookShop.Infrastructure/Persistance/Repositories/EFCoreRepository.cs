@@ -12,8 +12,8 @@ namespace OnlineBookShop.Infrastructure.Persistance.Repositories
 {
     public class EFCoreRepository : IRepository
     {
-        private readonly OnlineBookShopDbContext _onlineBookShopDbContext;
         private readonly IMapper _mapper;
+        protected readonly OnlineBookShopDbContext _onlineBookShopDbContext;
 
         public EFCoreRepository(OnlineBookShopDbContext onlineBookShopDbContext, IMapper mapper)
         {

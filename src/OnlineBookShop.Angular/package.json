@@ -2,8 +2,8 @@
   "name": "online-book-shop-angular",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
+    "ng": "set NODE_OPTIONS=--openssl-legacy-provider && ng",
+    "start": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

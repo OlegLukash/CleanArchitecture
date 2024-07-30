@@ -21,7 +21,10 @@ if (builder.Environment.IsDevelopment())
 app.UseExceptionHandling();
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseCors(configurePolicy => configurePolicy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseCors(configurePolicy => configurePolicy
+    .WithOrigins("http://localhost:4200")
+    .AllowAnyHeader()
+    .AllowAnyMethod());
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseDbTransaction();

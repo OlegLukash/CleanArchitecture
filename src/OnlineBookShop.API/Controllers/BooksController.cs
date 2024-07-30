@@ -49,5 +49,13 @@ namespace OnlineBookShop.API.Controllers
         {
             await _mediator.Send(new DeleteBookCommand() { Id = id });
         }
+
+        [HttpGet("top-rated")]
+        public async Task<IEnumerable<BookDto>> GetTopRatedBooks()
+        {
+            var result = await _mediator.Send(new GetTopRatedBooksQuery() { });
+            return result;
+        }
+
     }
 }
