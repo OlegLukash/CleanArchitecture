@@ -1,4 +1,6 @@
-﻿using OnlineBookShop.Infrastructure.Persistance.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineBookShop.Infrastructure.Persistance.Contexts;
+using System.Data;
 
 namespace OnlineBookShop.API.Middlewares
 {
@@ -13,14 +15,17 @@ namespace OnlineBookShop.API.Middlewares
 
         public async Task InvokeAsync(HttpContext httpContext, OnlineBookShopDbContext dbContext)
         {
-            // For HTTP GET opening transaction is not required
+            //different isolation levels for reads and writes
+            // to improve performance and limit table locking we assume that all GET methods can run on uncommited level, 
+            // which means that dirty reads are possible
+            var isolationLevel = IsolationLevel.Unspecified;
             if (httpContext.Request.Method == HttpMethod.Get.Method)
-            {
-                await _next(httpContext);
-                return;
-            }
+                isolationLevel = IsolationLevel.ReadUncommitted;
+            else
+                isolationLevel = IsolationLevel.ReadCommitted;
 
-            using (var transaction = await dbContext.Database.BeginTransactionAsync())
+
+            using (var transaction = await dbContext.Database.BeginTransactionAsync(isolationLevel))
             {
                 await _next(httpContext);
 

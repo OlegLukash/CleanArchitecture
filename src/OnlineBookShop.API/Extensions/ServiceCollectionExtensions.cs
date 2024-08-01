@@ -12,7 +12,8 @@ namespace OnlineBookShop.API.Extensions
     {
         public static void AddServices(this WebApplicationBuilder builder)
         {
-            builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddApiOptions();
+            builder.Services.AddInfrastructure();
             builder.Services.AddAuthentication(builder.Configuration);
             builder.Services.AddControllers();
             builder.Services.AddApplication();

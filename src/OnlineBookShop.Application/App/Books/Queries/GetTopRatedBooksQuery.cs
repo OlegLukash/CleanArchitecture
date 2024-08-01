@@ -1,26 +1,43 @@
-﻿using MediatR;
-using OnlineBookShop.Application.App.Books.Dtos;
-using OnlineBookShop.Application.Common.Interfaces.Repositories;
+﻿using Dapper;
+using MediatR;
+using OnlineBookShop.Application.App.Books.Responses;
+using OnlineBookShop.Application.Common.Interfaces;
 
 namespace OnlineBookShop.Application.App.Books.Queries
 {
-    public class GetTopRatedBooksQuery: IRequest<IEnumerable<BookDto>>
+    public class GetTopRatedBooksQuery: IRequest<IEnumerable<TopRatedBookDto>>
     {
 
     }
 
-    public class GetTopRatedBooksQueryHandler : IRequestHandler<GetTopRatedBooksQuery, IEnumerable<BookDto>>
+    public class GetTopRatedBooksQueryHandler : IRequestHandler<GetTopRatedBooksQuery, IEnumerable<TopRatedBookDto>>
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-        public GetTopRatedBooksQueryHandler(IBookRepository bookRepository)
+        public GetTopRatedBooksQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
         {
-            _bookRepository = bookRepository;
+            _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public async Task<IEnumerable<BookDto>> Handle(GetTopRatedBooksQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TopRatedBookDto>> Handle(GetTopRatedBooksQuery request, CancellationToken cancellationToken)
         {
-            return await _bookRepository.GetTopRatedBooks();
+            var connection = _sqlConnectionFactory.GetOpenConnection();
+
+            const string sql = "SELECT " +
+                                "[vBooks].[Id]," +
+                                "[vBooks].[Title]," +
+                                "[vBooks].[Description]," +
+                                "[vBooks].[PublishedOn]," +
+                                "[vBooks].[Price]," +
+                                "[vBooks].[PublisherId]" +
+                                "FROM [dbo].[vBooks]" +
+                                "WHERE [vBooks].[NumStars] > 3";
+            
+            //Here a view / materialized view (indexed view) might be created
+
+            var topRatedBooksDto = await connection.QueryAsync<TopRatedBookDto>(sql);
+
+            return topRatedBooksDto;
         }
     }
 }

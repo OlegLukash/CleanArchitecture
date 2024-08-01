@@ -20,6 +20,13 @@
 
   <ItemGroup>
     <Folder Include="Persistance\Migrations\" />
+    <Folder Include="Persistance\Scripts\Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Persistance\Scripts\Views\vBooks.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineBookShop.Application.App.Books.Commands;
 using OnlineBookShop.Application.App.Books.Dtos;
 using OnlineBookShop.Application.App.Books.Queries;
+using OnlineBookShop.Application.App.Books.Responses;
 using OnlineBookShop.Application.Common.Models;
 
 namespace OnlineBookShop.API.Controllers
@@ -51,7 +52,7 @@ namespace OnlineBookShop.API.Controllers
         }
 
         [HttpGet("top-rated")]
-        public async Task<IEnumerable<BookDto>> GetTopRatedBooks()
+        public async Task<IEnumerable<TopRatedBookDto>> GetTopRatedBooks()
         {
             var result = await _mediator.Send(new GetTopRatedBooksQuery() { });
             return result;
