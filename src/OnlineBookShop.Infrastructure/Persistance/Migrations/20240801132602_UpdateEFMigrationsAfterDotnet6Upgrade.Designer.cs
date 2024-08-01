@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineBookShop.Infrastructure.Persistance.Contexts;
 
@@ -11,9 +12,10 @@ using OnlineBookShop.Infrastructure.Persistance.Contexts;
 namespace OnlineBookShop.Dal.Migrations
 {
     [DbContext(typeof(OnlineBookShopDbContext))]
-    partial class OnlineBookShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240801132602_UpdateEFMigrationsAfterDotnet6Upgrade")]
+    partial class UpdateEFMigrationsAfterDotnet6Upgrade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

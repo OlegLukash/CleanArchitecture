@@ -23,7 +23,6 @@ namespace OnlineBookShop.Domain
 
         public ICollection<Review> Reviews { get; set; }
 
-        public byte[] RowVersion { get; set; }
 
     }
 }

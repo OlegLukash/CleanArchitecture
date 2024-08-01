@@ -20,8 +20,6 @@ namespace OnlineBookShop.Infrastructure.Persistance.Configurations
                 .WithOne(x => x.Book)
                 .HasForeignKey(x => x.BookId);
 
-            builder.Property(x => x.RowVersion)
-                .IsRowVersion();
         }
     }
 }
